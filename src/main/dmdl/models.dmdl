@@ -1,0 +1,238 @@
+@directio.csv(
+	charset = "UTF-8",
+	has_header = TRUE,
+	date = "yyyy-mm-dd"
+)
+daily_rate_usd_jpy ={
+	@directio.csv.field(name="Date")
+	date : DATE;
+	@directio.csv.field(name="EndRate")
+	end_rate : FLOAT;
+	@directio.csv.field(name="StartRate")
+	start_rate : FLOAT;
+	@directio.csv.field(name="MaxRate")
+	max_rate : FLOAT;
+	@directio.csv.field(name="LowRate")
+	min_rate : FLOAT;
+	@directio.csv.field(name="Ratio")
+	dekidaka : FLOAT;
+	@directio.csv.field(name="DayBeforeRatio")
+	day_before_ratio : FLOAT;
+};
+
+@directio.csv(
+	charset = "UTF-8",
+	has_header = TRUE,
+	date = "yyyy-mm-dd"
+)
+daily_dow_jones = {
+	@directio.csv.field(name="Date")
+	date : DATE;
+	@directio.csv.field(name="EndRate")
+	end_rate : FLOAT;
+	@directio.csv.field(name="StartRate")
+	start_rate : FLOAT;
+	@directio.csv.field(name="MaxRate")
+	max_rate : FLOAT;
+	@directio.csv.field(name="LowRate")
+	min_rate : FLOAT;
+	@directio.csv.field(name="dekidaka")
+	dekidaka : FLOAT;
+	@directio.csv.field(name="DayBeforeRatio")
+	day_before_ratio : FLOAT;
+};
+
+@directio.csv(
+	charset = "UTF-8",
+	has_header = TRUE,
+	date = "yyyy-mm-dd"
+)
+daily_nikkei_300 = {
+	@directio.csv.field(name="")
+	date : DATE;
+	@directio.csv.field(name="EndRate")
+	end_rate : FLOAT;
+	@directio.csv.field(name="StartRate")
+	start_rate : FLOAT;
+	@directio.csv.field(name="MaxRate")
+	max_rate : FLOAT;
+	@directio.csv.field(name="LowRate")
+	min_rate : FLOAT;
+	@directio.csv.field(name="dekidaka")
+	dekidaka : FLOAT;
+	@directio.csv.field(name="DayBeforeRatio")
+	day_before_ratio : FLOAT;
+};
+
+summary_twitter_stream = {
+	date : DATE;
+	hot_word_1 : TEXT;
+	hot_word_2 : TEXT;
+	hot_word_3 : TEXT;
+	hot_word_4 : TEXT;
+	hot_word_5 : TEXT;
+	hot_word_6 : TEXT;
+	hot_word_7 : TEXT;
+	hot_word_8 : TEXT;
+	hot_word_9 : TEXT;
+	hot_word_10 : TEXT;
+	hot_word_11 : TEXT;
+	hot_word_12 : TEXT;
+	hot_word_13 : TEXT;
+	hot_word_14 : TEXT;
+	hot_word_15 : TEXT;
+	hot_word_16 : TEXT;
+	hot_word_17 : TEXT;
+	hot_word_18 : TEXT;
+	hot_word_19 : TEXT;
+	hot_word_20 : TEXT;
+	hot_word_21 : TEXT;
+	hot_word_22 : TEXT;
+	hot_word_23 : TEXT;
+	hot_word_24 : TEXT;
+	hot_word_25 : TEXT;
+	hot_word_26 : TEXT;
+	hot_word_27 : TEXT;
+	hot_word_28 : TEXT;
+	hot_word_29 : TEXT;
+	hot_word_30 : TEXT;
+	hot_word_31 : TEXT;
+	hot_word_32 : TEXT;
+	hot_word_33 : TEXT;
+	hot_word_34 : TEXT;
+	hot_word_35 : TEXT;
+	hot_word_36 : TEXT;
+	hot_word_37 : TEXT;
+	hot_word_38 : TEXT;
+	hot_word_39 : TEXT;
+	hot_word_40 : TEXT;
+	hot_word_41 : TEXT;
+	hot_word_42 : TEXT;
+	hot_word_43 : TEXT;
+	hot_word_44 : TEXT;
+	hot_word_45 : TEXT;
+	hot_word_46 : TEXT;
+	hot_word_47 : TEXT;
+	hot_word_48 : TEXT;
+	hot_word_49 : TEXT;
+	hot_word_50 : TEXT;	
+};
+
+joined add_rate_dj
+ = daily_rate_usd_jpy -> {
+ 	date -> date;
+	end_rate -> f_end_rate;
+	start_rate -> f_start_rate;
+	max_rate -> f_max_rate;
+	min_rate -> f_min_rate;
+	day_before_ratio -> f_day_before_ratio;
+} % date
++ daily_dow_jones -> {
+	date -> date;
+	end_rate -> d_end_rate;
+	start_rate -> d_start_rate;
+	max_rate -> d_max_rate;
+	min_rate -> d_min_rate;
+	dekidaka -> d_dekidaka;
+	day_before_ratio -> d_day_before_ratio;
+} % date;
+
+joined add_rate_dj_nikkei
+ = add_rate_dj -> {
+	date -> date;
+	f_end_rate -> f_end_rate;
+	f_start_rate -> f_start_rate;
+	f_max_rate -> f_max_rate;
+	f_min_rate -> f_min_rate;
+	f_day_before_ratio -> f_day_before_ratio;
+	d_end_rate -> d_end_rate;
+	d_start_rate -> d_start_rate;
+	d_max_rate -> d_max_rate;
+	d_min_rate -> d_min_rate;
+	d_dekidaka -> d_dekidaka;
+	d_day_before_ratio -> d_day_before_ratio;
+} % date
++ daily_nikkei_300 -> {
+	date -> date;
+	end_rate -> n_end_rate;
+	start_rate -> n_start_rate;
+	max_rate -> n_max_rate;
+	min_rate -> n_min_rate;
+	dekidaka -> n_dekidaka;
+	day_before_ratio -> n_day_before_ratio;
+} % date;
+
+joined summary_data
+ = add_rate_dj_nikkei -> {
+	date -> date;
+	f_end_rate -> f_end_rate;
+	f_start_rate -> f_start_rate;
+	f_max_rate -> f_max_rate;
+	f_min_rate -> f_min_rate;
+	f_day_before_ratio -> f_day_before_ratio;
+	d_end_rate -> d_end_rate;
+	d_start_rate -> d_start_rate;
+	d_max_rate -> d_max_rate;
+	d_min_rate -> d_min_rate;
+	d_dekidaka -> d_dekidaka;
+	d_day_before_ratio -> d_day_before_ratio;
+	n_end_rate -> n_end_rate;
+	n_start_rate -> n_start_rate;
+	n_max_rate -> n_max_rate;
+	n_min_rate -> n_min_rate;
+	n_dekidaka -> n_dekidaka;
+	n_day_before_ratio -> n_day_before_ratio;
+} % date
++ summary_twitter_stream -> {
+	date -> date;
+	hot_word_1 -> hot_word_1;
+	hot_word_2 -> hot_word_2;
+	hot_word_3 -> hot_word_3;
+	hot_word_4 -> hot_word_4;
+	hot_word_5 -> hot_word_5;
+	hot_word_6 -> hot_word_6;
+	hot_word_7 -> hot_word_7;
+	hot_word_8 -> hot_word_8;
+	hot_word_9 -> hot_word_9;
+	hot_word_10 -> hot_word_10;
+	hot_word_11 -> hot_word_11;
+	hot_word_12 -> hot_word_12;
+	hot_word_13 -> hot_word_13;
+	hot_word_14 -> hot_word_14;
+	hot_word_15 -> hot_word_15;
+	hot_word_16 -> hot_word_16;
+	hot_word_17 -> hot_word_17;
+	hot_word_18 -> hot_word_18;
+	hot_word_19 -> hot_word_19;
+	hot_word_20 -> hot_word_20;
+	hot_word_21 -> hot_word_21;
+	hot_word_22 -> hot_word_22;
+	hot_word_23 -> hot_word_23;
+	hot_word_24 -> hot_word_24;
+	hot_word_25 -> hot_word_25;
+	hot_word_26 -> hot_word_26;
+	hot_word_27 -> hot_word_27;
+	hot_word_28 -> hot_word_28;
+	hot_word_29 -> hot_word_29;
+	hot_word_30 -> hot_word_30;
+	hot_word_31 -> hot_word_31;
+	hot_word_32 -> hot_word_32;
+	hot_word_33 -> hot_word_33;
+	hot_word_34 -> hot_word_34;
+	hot_word_35 -> hot_word_35;
+	hot_word_36 -> hot_word_36;
+	hot_word_37 -> hot_word_37;
+	hot_word_38 -> hot_word_38;
+	hot_word_39 -> hot_word_39;
+	hot_word_40 -> hot_word_40;
+	hot_word_41 -> hot_word_41;
+	hot_word_42 -> hot_word_42;
+	hot_word_43 -> hot_word_43;
+	hot_word_44 -> hot_word_44;
+	hot_word_45 -> hot_word_45;
+	hot_word_46 -> hot_word_46;
+	hot_word_47 -> hot_word_47;
+	hot_word_48 -> hot_word_48;
+	hot_word_49 -> hot_word_49;
+	hot_word_50 -> hot_word_50;
+} % date;
