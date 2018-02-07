@@ -22,10 +22,9 @@ public abstract class CombineDataOperator {
 	public abstract AddRateDj checkDowJones(DailyDowJones dowJones, DailyRateUsdJpy rateUSDJPY);
 	
 	
+	private final AddRateDj addRateDJ = new AddRateDj();
 	@Convert
 	public AddRateDj setMissingValueToDowJones(DailyRateUsdJpy dailyRate) {
-		AddRateDj addRateDJ = new AddRateDj();
-		
 		addRateDJ.setDate(dailyRate.getDate());
 		addRateDJ.setFEndRate(dailyRate.getEndRate());
 		addRateDJ.setFStartRate(dailyRate.getStartRate());
@@ -38,7 +37,6 @@ public abstract class CombineDataOperator {
 		addRateDJ.setDMinRate(0);
 		addRateDJ.setDDekidaka(0);
 		addRateDJ.setDDayBeforeRatio(0);
-		
 		return addRateDJ;
 	}
 	
@@ -51,14 +49,29 @@ public abstract class CombineDataOperator {
 	@MasterJoin
 	public abstract AddRateDjNikkei checkNikkei300(DailyNikkei300 nikkei300, AddRateDj rateDJ);
 	
-	@Update
-	public void setMissingValueToNikkei(AddRateDjNikkei rateDJNikkei) {
+	
+	private final AddRateDjNikkei rateDJNikkei = new AddRateDjNikkei();
+	@Convert
+	public AddRateDjNikkei setMissingValueToNikkei(AddRateDj rateDJ) {
+		rateDJNikkei.setDate(rateDJ.getDate());
+		rateDJNikkei.setFEndRate(rateDJ.getDEndRate());
+		rateDJNikkei.setFStartRate(rateDJ.getDStartRate());
+		rateDJNikkei.setFMaxRate(rateDJ.getDMaxRate());
+		rateDJNikkei.setFMinRate(rateDJ.getDMinRate());
+		rateDJNikkei.setFDayBeforeRatio(rateDJ.getDDayBeforeRatio());
+		rateDJNikkei.setDEndRate(rateDJ.getDEndRate());
+		rateDJNikkei.setDStartRate(rateDJ.getDStartRate());
+		rateDJNikkei.setDMaxRate(rateDJ.getDMaxRate());
+		rateDJNikkei.setDMinRate(rateDJ.getDMinRate());
+		rateDJNikkei.setDDekidaka(rateDJ.getDDekidaka());
+		rateDJNikkei.setDDayBeforeRatio(rateDJ.getDDayBeforeRatio());
 		rateDJNikkei.setNEndRate(0);
 		rateDJNikkei.setNStartRate(0);
 		rateDJNikkei.setNMaxRate(0);
 		rateDJNikkei.setNMinRate(0);
 		rateDJNikkei.setNDekidaka(0);
 		rateDJNikkei.setNDayBeforeRatio(0);
+		return rateDJNikkei;
 	}
 	
 	/*
@@ -70,6 +83,7 @@ public abstract class CombineDataOperator {
 	@MasterJoin
 	public abstract SummaryData checkTwitterStream(SummaryTwitterStream twitterStream, AddRateDjNikkei rateDJNikkei);
 	
+
 	@Update
 	public void setMissingValueToTwitter(SummaryTwitterStream stream) {
 		stream.setHotWord1AsString("NA");
