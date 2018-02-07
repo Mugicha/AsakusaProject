@@ -2,7 +2,6 @@ package com.ebilab.operator;
 
 import com.asakusafw.vocabulary.operator.Convert;
 import com.asakusafw.vocabulary.operator.MasterJoin;
-import com.asakusafw.vocabulary.operator.Update;
 import com.example.modelgen.dmdl.model.AddRateDj;
 import com.example.modelgen.dmdl.model.AddRateDjNikkei;
 import com.example.modelgen.dmdl.model.DailyDowJones;
@@ -83,58 +82,80 @@ public abstract class CombineDataOperator {
 	@MasterJoin
 	public abstract SummaryData checkTwitterStream(SummaryTwitterStream twitterStream, AddRateDjNikkei rateDJNikkei);
 	
-
-	@Update
-	public void setMissingValueToTwitter(SummaryTwitterStream stream) {
-		stream.setHotWord1AsString("NA");
-		stream.setHotWord2AsString("NA");
-		stream.setHotWord3AsString("NA");
-		stream.setHotWord4AsString("NA");
-		stream.setHotWord5AsString("NA");
-		stream.setHotWord6AsString("NA");
-		stream.setHotWord7AsString("NA");
-		stream.setHotWord8AsString("NA");
-		stream.setHotWord9AsString("NA");
-		stream.setHotWord10AsString("NA");
-		stream.setHotWord11AsString("NA");
-		stream.setHotWord12AsString("NA");
-		stream.setHotWord13AsString("NA");
-		stream.setHotWord14AsString("NA");
-		stream.setHotWord15AsString("NA");
-		stream.setHotWord16AsString("NA");
-		stream.setHotWord17AsString("NA");
-		stream.setHotWord18AsString("NA");
-		stream.setHotWord19AsString("NA");
-		stream.setHotWord20AsString("NA");
-		stream.setHotWord21AsString("NA");
-		stream.setHotWord22AsString("NA");
-		stream.setHotWord23AsString("NA");
-		stream.setHotWord24AsString("NA");
-		stream.setHotWord25AsString("NA");
-		stream.setHotWord26AsString("NA");
-		stream.setHotWord27AsString("NA");
-		stream.setHotWord28AsString("NA");
-		stream.setHotWord29AsString("NA");
-		stream.setHotWord30AsString("NA");
-		stream.setHotWord31AsString("NA");
-		stream.setHotWord32AsString("NA");
-		stream.setHotWord33AsString("NA");
-		stream.setHotWord34AsString("NA");
-		stream.setHotWord35AsString("NA");
-		stream.setHotWord36AsString("NA");
-		stream.setHotWord37AsString("NA");
-		stream.setHotWord38AsString("NA");
-		stream.setHotWord39AsString("NA");
-		stream.setHotWord40AsString("NA");
-		stream.setHotWord41AsString("NA");
-		stream.setHotWord42AsString("NA");
-		stream.setHotWord43AsString("NA");
-		stream.setHotWord44AsString("NA");
-		stream.setHotWord45AsString("NA");
-		stream.setHotWord46AsString("NA");
-		stream.setHotWord47AsString("NA");
-		stream.setHotWord48AsString("NA");
-		stream.setHotWord49AsString("NA");
-		stream.setHotWord50AsString("NA");
+	
+	private final SummaryData summaryData = new SummaryData();
+	@Convert
+	public SummaryData setMissingValueToTwitter(AddRateDjNikkei addRateDjNikkei) {
+		summaryData.setDate(addRateDjNikkei.getDate());
+		summaryData.setFEndRate(addRateDjNikkei.getFEndRate());
+		summaryData.setFStartRate(addRateDjNikkei.getFStartRate());
+		summaryData.setFMaxRate(addRateDjNikkei.getDMaxRate());
+		summaryData.setFMinRate(addRateDjNikkei.getDMinRate());
+		summaryData.setFDayBeforeRatio(addRateDjNikkei.getFDayBeforeRatio());
+		summaryData.setDEndRate(addRateDjNikkei.getDEndRate());
+		summaryData.setDStartRate(addRateDjNikkei.getDStartRate());
+		summaryData.setDMaxRate(addRateDjNikkei.getDMaxRate());
+		summaryData.setDMinRate(addRateDjNikkei.getDMinRate());
+		summaryData.setDDekidaka(addRateDjNikkei.getDDekidaka());
+		summaryData.setDDayBeforeRatio(addRateDjNikkei.getDDayBeforeRatio());
+		summaryData.setNEndRate(addRateDjNikkei.getNEndRate());
+		summaryData.setNStartRate(addRateDjNikkei.getNStartRate());
+		summaryData.setNMaxRate(addRateDjNikkei.getNMaxRate());
+		summaryData.setNMinRate(addRateDjNikkei.getNMinRate());
+		summaryData.setNDekidaka(addRateDjNikkei.getNDekidaka());
+		summaryData.setNDayBeforeRatio(addRateDjNikkei.getDDayBeforeRatio());
+		
+		summaryData.setHotWord1AsString("NA");
+		summaryData.setHotWord2AsString("NA");
+		summaryData.setHotWord3AsString("NA");
+		summaryData.setHotWord4AsString("NA");
+		summaryData.setHotWord5AsString("NA");
+		summaryData.setHotWord6AsString("NA");
+		summaryData.setHotWord7AsString("NA");
+		summaryData.setHotWord8AsString("NA");
+		summaryData.setHotWord9AsString("NA");
+		summaryData.setHotWord10AsString("NA");
+		summaryData.setHotWord11AsString("NA");
+		summaryData.setHotWord12AsString("NA");
+		summaryData.setHotWord13AsString("NA");
+		summaryData.setHotWord14AsString("NA");
+		summaryData.setHotWord15AsString("NA");
+		summaryData.setHotWord16AsString("NA");
+		summaryData.setHotWord17AsString("NA");
+		summaryData.setHotWord18AsString("NA");
+		summaryData.setHotWord19AsString("NA");
+		summaryData.setHotWord20AsString("NA");
+		summaryData.setHotWord21AsString("NA");
+		summaryData.setHotWord22AsString("NA");
+		summaryData.setHotWord23AsString("NA");
+		summaryData.setHotWord24AsString("NA");
+		summaryData.setHotWord25AsString("NA");
+		summaryData.setHotWord26AsString("NA");
+		summaryData.setHotWord27AsString("NA");
+		summaryData.setHotWord28AsString("NA");
+		summaryData.setHotWord29AsString("NA");
+		summaryData.setHotWord30AsString("NA");
+		summaryData.setHotWord31AsString("NA");
+		summaryData.setHotWord32AsString("NA");
+		summaryData.setHotWord33AsString("NA");
+		summaryData.setHotWord34AsString("NA");
+		summaryData.setHotWord35AsString("NA");
+		summaryData.setHotWord36AsString("NA");
+		summaryData.setHotWord37AsString("NA");
+		summaryData.setHotWord38AsString("NA");
+		summaryData.setHotWord39AsString("NA");
+		summaryData.setHotWord40AsString("NA");
+		summaryData.setHotWord41AsString("NA");
+		summaryData.setHotWord42AsString("NA");
+		summaryData.setHotWord43AsString("NA");
+		summaryData.setHotWord44AsString("NA");
+		summaryData.setHotWord45AsString("NA");
+		summaryData.setHotWord46AsString("NA");
+		summaryData.setHotWord47AsString("NA");
+		summaryData.setHotWord48AsString("NA");
+		summaryData.setHotWord49AsString("NA");
+		summaryData.setHotWord50AsString("NA");
+		
+		return summaryData;
 	}
 }
