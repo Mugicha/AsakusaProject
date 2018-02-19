@@ -8,6 +8,7 @@ import com.asakusafw.vocabulary.flow.util.CoreOperatorFactory;
 import com.ebilab.operator.CombineDataOperatorFactory;
 import com.ebilab.operator.CombineDataOperatorFactory.CheckDowJones;
 import com.ebilab.operator.CombineDataOperatorFactory.CheckNikkei300;
+import com.ebilab.operator.CombineDataOperatorFactory.CheckTwitterStream;
 import com.ebilab.operator.CombineDataOperatorFactory.SetMissingValueToDowJones;
 import com.ebilab.operator.CombineDataOperatorFactory.SetMissingValueToNikkei;
 import com.example.modelgen.dmdl.model.DailyDowJones;
@@ -36,7 +37,6 @@ public class CombineDataFlowPart extends FlowDescription{
 	
 	@Override
 	protected void describe() {
-		CoreOperatorFactory core = new CoreOperatorFactory();
 		CombineDataOperatorFactory operators = new CombineDataOperatorFactory();
 		
 		CheckDowJones checkDowJones = operators.checkDowJones(dailyDowJones, dailyRateUsdJpy);
@@ -47,5 +47,6 @@ public class CombineDataFlowPart extends FlowDescription{
 		
 		SetMissingValueToNikkei setMissingValueToNikkei = operators.setMissingValueToNikkei(checkNikkei300.missed);
 		
+		CheckTwitterStream checkTwitterStream = operators.checkTwitterStream(twitterStream, checkNikkei300.joined);
 	}
 }
