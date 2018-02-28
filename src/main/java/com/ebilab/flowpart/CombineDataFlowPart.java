@@ -5,6 +5,7 @@ import com.asakusafw.vocabulary.flow.FlowPart;
 import com.asakusafw.vocabulary.flow.In;
 import com.asakusafw.vocabulary.flow.Out;
 import com.asakusafw.vocabulary.flow.util.CoreOperatorFactory;
+import com.asakusafw.vocabulary.flow.util.CoreOperatorFactory.Confluent;
 import com.ebilab.operator.CombineDataOperatorFactory;
 import com.ebilab.operator.CombineDataOperatorFactory.CheckDowJones;
 import com.ebilab.operator.CombineDataOperatorFactory.CheckNikkei300;
@@ -12,6 +13,7 @@ import com.ebilab.operator.CombineDataOperatorFactory.CheckTwitterStream;
 import com.ebilab.operator.CombineDataOperatorFactory.SetMissingValueToDowJones;
 import com.ebilab.operator.CombineDataOperatorFactory.SetMissingValueToNikkei;
 import com.ebilab.operator.CombineDataOperatorFactory.SetMissingValueToTwitter;
+import com.example.modelgen.dmdl.model.AddRateDj;
 import com.example.modelgen.dmdl.model.DailyDowJones;
 import com.example.modelgen.dmdl.model.DailyNikkei300;
 import com.example.modelgen.dmdl.model.DailyRateUsdJpy;
@@ -26,6 +28,9 @@ public class CombineDataFlowPart extends FlowDescription{
 	final In<DailyNikkei300> dailyNikkei300;
 	final In<SummaryTwitterStream> summaryTwitterStream;
 	final Out<SummaryData> summaryData;
+	
+	In<AddRateDj> addRateDJ;
+	In<SetMissingValueToDowJones> setMissingValueToDowJones;
 	
 	public CombineDataFlowPart(
 			In<DailyRateUsdJpy> dailyRateUsdJpy,
@@ -43,12 +48,14 @@ public class CombineDataFlowPart extends FlowDescription{
 	@Override
 	protected void describe() {
 		CombineDataOperatorFactory operators = new CombineDataOperatorFactory();
-		
+		CoreOperatorFactory core = new CoreOperatorFactory();
 		
 		// 1. DOW JONES　の結合
 		CheckDowJones checkDowJones = operators.checkDowJones(dailyDowJones, dailyRateUsdJpy);
-		SetMissingValueToDowJones setMissingValueToDowJones = operators.setMissingValueToDowJones(checkDowJones.missed);
+		setMissingValueToDowJones = operators.setMissingValueToDowJones(checkDowJones.missed);
+		addRateDJ = (In<AddRateDj>) checkDowJones.joined;
 		
+		Confluent<DailyDowJones> confDowJones = core.confluent(addRateDJ, setMissingValueToDowJones);
 		
 		// 2. Nikkei300 の結合
 		CheckNikkei300 checkNikkei300 = operators.checkNikkei300(dailyNikkei300, checkDowJones.joined);
