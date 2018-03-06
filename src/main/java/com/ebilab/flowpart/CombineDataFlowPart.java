@@ -29,9 +29,6 @@ public class CombineDataFlowPart extends FlowDescription{
 	final In<SummaryTwitterStream> summaryTwitterStream;
 	final Out<SummaryData> summaryData;
 	
-	In<AddRateDj> addRateDJ;
-	In<SetMissingValueToDowJones> setMissingValueToDowJones;
-	
 	public CombineDataFlowPart(
 			In<DailyRateUsdJpy> dailyRateUsdJpy,
 			In<DailyDowJones> dailyDowJones,
@@ -52,10 +49,9 @@ public class CombineDataFlowPart extends FlowDescription{
 		
 		// 1. DOW JONES　の結合
 		CheckDowJones checkDowJones = operators.checkDowJones(dailyDowJones, dailyRateUsdJpy);
-		setMissingValueToDowJones = operators.setMissingValueToDowJones(checkDowJones.missed);
-		addRateDJ = (In<AddRateDj>) checkDowJones.joined;
+		SetMissingValueToDowJones setMissingValueToDowJones = operators.setMissingValueToDowJones(checkDowJones.missed);
 		
-		Confluent<DailyDowJones> confDowJones = core.confluent(addRateDJ, setMissingValueToDowJones);
+		Confluent<AddRateDj> confDowJones = core.confluent(checkDowJones.joined, setMissingValueToDowJones.out);
 		
 		// 2. Nikkei300 の結合
 		CheckNikkei300 checkNikkei300 = operators.checkNikkei300(dailyNikkei300, checkDowJones.joined);
