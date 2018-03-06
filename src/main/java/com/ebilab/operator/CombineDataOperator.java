@@ -2,13 +2,13 @@ package com.ebilab.operator;
 
 import com.asakusafw.vocabulary.operator.Convert;
 import com.asakusafw.vocabulary.operator.MasterJoin;
-import com.example.modelgen.dmdl.model.AddRateDj;
-import com.example.modelgen.dmdl.model.AddRateDjNikkei;
-import com.example.modelgen.dmdl.model.DailyDowJones;
-import com.example.modelgen.dmdl.model.DailyNikkei300;
-import com.example.modelgen.dmdl.model.DailyRateUsdJpy;
-import com.example.modelgen.dmdl.model.SummaryData;
-import com.example.modelgen.dmdl.model.SummaryTwitterStream;
+import com.ebilab.modelgen.dmdl.model.AddRateDj;
+import com.ebilab.modelgen.dmdl.model.AddRateDjNikkei;
+import com.ebilab.modelgen.dmdl.model.DailyDowJones;
+import com.ebilab.modelgen.dmdl.model.DailyNikkei300;
+import com.ebilab.modelgen.dmdl.model.DailyRateUsdJpy;
+import com.ebilab.modelgen.dmdl.model.SummaryData;
+import com.ebilab.modelgen.dmdl.model.SummaryTwitterStream;
 
 public abstract class CombineDataOperator {
 	/*

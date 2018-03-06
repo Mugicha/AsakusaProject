@@ -6,6 +6,12 @@ import com.asakusafw.vocabulary.flow.In;
 import com.asakusafw.vocabulary.flow.Out;
 import com.asakusafw.vocabulary.flow.util.CoreOperatorFactory;
 import com.asakusafw.vocabulary.flow.util.CoreOperatorFactory.Confluent;
+import com.ebilab.modelgen.dmdl.model.AddRateDj;
+import com.ebilab.modelgen.dmdl.model.DailyDowJones;
+import com.ebilab.modelgen.dmdl.model.DailyNikkei300;
+import com.ebilab.modelgen.dmdl.model.DailyRateUsdJpy;
+import com.ebilab.modelgen.dmdl.model.SummaryData;
+import com.ebilab.modelgen.dmdl.model.SummaryTwitterStream;
 import com.ebilab.operator.CombineDataOperatorFactory;
 import com.ebilab.operator.CombineDataOperatorFactory.CheckDowJones;
 import com.ebilab.operator.CombineDataOperatorFactory.CheckNikkei300;
@@ -13,12 +19,6 @@ import com.ebilab.operator.CombineDataOperatorFactory.CheckTwitterStream;
 import com.ebilab.operator.CombineDataOperatorFactory.SetMissingValueToDowJones;
 import com.ebilab.operator.CombineDataOperatorFactory.SetMissingValueToNikkei;
 import com.ebilab.operator.CombineDataOperatorFactory.SetMissingValueToTwitter;
-import com.example.modelgen.dmdl.model.AddRateDj;
-import com.example.modelgen.dmdl.model.DailyDowJones;
-import com.example.modelgen.dmdl.model.DailyNikkei300;
-import com.example.modelgen.dmdl.model.DailyRateUsdJpy;
-import com.example.modelgen.dmdl.model.SummaryData;
-import com.example.modelgen.dmdl.model.SummaryTwitterStream;
 
 @FlowPart
 public class CombineDataFlowPart extends FlowDescription{
