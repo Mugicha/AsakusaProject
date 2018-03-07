@@ -10,10 +10,12 @@
 ```shell:デプロイ
 cd ~/$ASAKUSA_HOME
 tar -xzf ~/TwTfIdf/build//asakusafw-TwTfIdf.tar.gz
-java -jar $ASAKUSA_HOME/tools/bin/setup.jar```
+java -jar $ASAKUSA_HOME/tools/bin/setup.jar
+```
 
 ## データ配置
 
 ## 実行
 ```shell:実行
-{ASAKUSA_HOME}/yaess/bin/yaess-batch.sh vanilla.TwTfIdfBatch```
+{ASAKUSA_HOME}/yaess/bin/yaess-batch.sh vanilla.TwTfIdfBatch
+```
