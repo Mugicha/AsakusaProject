@@ -21,6 +21,11 @@ import com.ebilab.modelgen.tfidf.model.DayWordCountModel;
 import com.ebilab.modelgen.tfidf.model.WordCountDayTotalModel;
 import com.ebilab.modelgen.tfidf.model.WordCountModel;
 
+/**
+ * TF-IDF計算用演算子
+ * @author nakazawasugio
+ *
+ */
 public abstract class TfIdfOperator {
 
     static Logger LOG = LoggerFactory.getLogger(TfIdfOperator.class);
