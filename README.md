@@ -31,3 +31,5 @@ ${ASAKUSA_HOME}/yaess/bin/yaess-batch.sh vanilla.TwTfIdfBatch
 
 計算結果詳細
 ~/target/testing/directio/result/daywordcount/dwcm-{日付}.csv
+
+![設計フロー](./設計フロー.png)
