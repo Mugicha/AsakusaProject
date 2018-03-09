@@ -1,28 +1,4 @@
 # AsakusaProject
-## ビルド＆デプロイ
-### eclipse使用
-1. Jinrikisha（人力車）->Asakusaバッチアプリケーションを生成
-2. Jinrikisha（人力車）->Asakusaバッチアプリケーションを生成->Asakusa開発環境の構成->バッチアプリケーションの配備
-
-この手順で${ASAKUSA_HOME}以下に配備されます。
-
-### shellコマンド
-```sh
-# プロジェクトディレクトリへ移動
-cd mhir/wks/AsakusaProject/
-./gradlew vanillaCompileBatchapps
-./gradlew assemble
-# Asakusaバッチを実行サーバへコピー
-export TARGET_HOST=52.243.39.179
-scp ~/mhir/wks/AsakusaProject/build/asakusafw-AsakusaProject.tar.gz nakazawa@${TARGET_HOST}:
-# デプロイ
-ssh nakazawa@${TARGET_HOST}
-cd ${ASAKUSA_HOME}
-tar -xzf ../asakusafw-AsakusaProject.tar.gz
-java -jar ${ASAKUSA_HOME}/tools/bin/setup.jar
-
-```
-
 ## データ配置
 ```sh
 # 実行サーバ
@@ -41,13 +17,35 @@ scp Dow_Jones_for_asakusa.csv nakazawa@${TARGET_HOST}:target/testing/directio/da
 scp nikkei_for_asakusa.csv nakazawa@${TARGET_HOST}:target/testing/directio/daily_nikkei_300/
 scp Tweet.txt nakazawa@${TARGET_HOST}:target/testing/directio/twitter/
 ```
+## ビルド＆デプロイ
+### eclipse使用
+1. Jinrikisha（人力車）->Asakusaバッチアプリケーションを生成
+2. Jinrikisha（人力車）->Asakusaバッチアプリケーションを生成->Asakusa開発環境の構成->バッチアプリケーションの配備
+
+この手順で${ASAKUSA_HOME}以下に配備されます。
+
+### shellコマンド（例：M3BP）
+```sh
+# プロジェクトディレクトリへ移動
+cd ~/AsakusaProject/
+./gradlew m3bpCompileBatchapps
+./gradlew assemble
+# デプロイ
+cd ${ASAKUSA_HOME}
+tar -xzf ~/AsakusaProject/build/asakusafw-AsakusaProject.tar.gz
+java -jar ${ASAKUSA_HOME}/tools/bin/setup.jar
+
+```
+
 
 ## 実行
-
 ```sh
-ssh nakazawa@${TARGET_HOST}
-${ASAKUSA_HOME}/yaess/bin/yaess-batch.sh vanilla.CombineBatch
+${ASAKUSA_HOME}/yaess/bin/yaess-batch.sh m3bp.CombineBatch
 ```
+## 実行ステータス参照
+Ambari WebUI: http://TARGET_HOEST:8080
+Resource Manager WebUI: http://TARGET_HOEST:8088
+Spark HistorySever: http://TARGET_HOEST:18081/
 
 ## 結果データ
 
