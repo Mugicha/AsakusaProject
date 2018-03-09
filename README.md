@@ -9,19 +9,24 @@
 ### shellコマンド
 ```sh
 cd ~/${ASAKUSA_HOME}
-tar -xzf ~/TwTfIdf/build//asakusafw-TwTfIdf.tar.gz
+tar -xzf ~/mhir/wks/AsakusaProject/build/asakusafw-AsakusaProject.tar.gz
 java -jar ${ASAKUSA_HOME}/tools/bin/setup.jar
 ```
 
 ## データ配置
 ```sh
-cp {Twitter取得データ} ${ASAKUSA_HOME}/target/testing/directio/twitter/
+mkdir -p ~//target/testing/directio/twitter/
+cp {USD＿YEN為替データ} ~/target/testing/directio/daily_rate_usd_jpy/
+cp {ダウ平均データ} ~/target/testing/directio/daily_daw_jones/
+cp {日経データ} ~/target/testing/directio/daily_nikkei_300/
+cp {Twitter取得データ} ~/target/testing/directio/twitter/
 ```
 
 ## 実行
 
 ```sh
-${ASAKUSA_HOME}/yaess/bin/yaess-batch.sh vanilla.TwTfIdfBatch
+cd ~/mhir/wks/AsakusaProject/
+${ASAKUSA_HOME}/yaess/bin/yaess-batch.sh vanilla.CombineBatch
 ```
 
 ## 結果データ

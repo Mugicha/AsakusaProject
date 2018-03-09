@@ -15,10 +15,10 @@ public class TwTfIdfJobTest {
 
     @Test
     public void testDescribe() {
-        String inDataSheet = "twitter_rec.xls";
-        String outDataSheet = "day_word_count_model.xls";
+        String inDataSheet = "TwTfIdfJobTestData/twitter_rec.xls";
+        String outDataSheet = "TwTfIdfJobTestData/day_word_count_model.xls";
         //	同率が多いため実行ごとに順序が入れ替わるのでテストなし。
-//        String outDispTfIdfDataSheet = "disp_day_word_model.xls";
+//        String outDispTfIdfDataSheet = "TwTfIdfJobTest/disp_day_word_model.xls";
 
         JobFlowTester tester = new JobFlowTester(getClass());
 

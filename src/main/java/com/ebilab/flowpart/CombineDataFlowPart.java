@@ -5,8 +5,10 @@ import com.asakusafw.vocabulary.flow.FlowPart;
 import com.asakusafw.vocabulary.flow.In;
 import com.asakusafw.vocabulary.flow.Out;
 import com.asakusafw.vocabulary.flow.util.CoreOperatorFactory;
+import com.asakusafw.vocabulary.flow.util.CoreOperators;
 import com.asakusafw.vocabulary.flow.util.CoreOperatorFactory.Confluent;
 import com.ebilab.modelgen.dmdl.model.AddRateDj;
+import com.ebilab.modelgen.dmdl.model.AddRateDjNikkei;
 import com.ebilab.modelgen.dmdl.model.DailyDowJones;
 import com.ebilab.modelgen.dmdl.model.DailyNikkei300;
 import com.ebilab.modelgen.dmdl.model.DailyRateUsdJpy;
@@ -50,24 +52,32 @@ public class CombineDataFlowPart extends FlowDescription{
 		// 1. DOW JONES　の結合
 		CheckDowJones checkDowJones = operators.checkDowJones(dailyDowJones, dailyRateUsdJpy);
 		SetMissingValueToDowJones setMissingValueToDowJones = operators.setMissingValueToDowJones(checkDowJones.missed);
+		//	停止データ
+        CoreOperators.stop(setMissingValueToDowJones.original);
 		
 		Confluent<AddRateDj> confDowJones = core.confluent(checkDowJones.joined, setMissingValueToDowJones.out);
 		
 		// 2. Nikkei300 の結合
-		CheckNikkei300 checkNikkei300 = operators.checkNikkei300(dailyNikkei300, checkDowJones.joined);
-		checkNikkei300 = operators.checkNikkei300(dailyNikkei300, setMissingValueToDowJones.out);
+		CheckNikkei300 checkNikkei300 = operators.checkNikkei300(dailyNikkei300, confDowJones.out);
+//		checkNikkei300 = operators.checkNikkei300(dailyNikkei300, setMissingValueToDowJones.out);
 		SetMissingValueToNikkei setMissingValueToNikkei = operators.setMissingValueToNikkei(checkNikkei300.missed);
+		//	停止データ
+        CoreOperators.stop(setMissingValueToNikkei.original);
 		
+		Confluent<AddRateDjNikkei> confNikkei = core.confluent(checkNikkei300.joined, setMissingValueToNikkei.out);
 		
 		// 3. Twitter の結合
-		CheckTwitterStream checkTwitterStream = operators.checkTwitterStream(summaryTwitterStream, checkNikkei300.joined);
-		checkTwitterStream = operators.checkTwitterStream(summaryTwitterStream, setMissingValueToNikkei.out);
+		CheckTwitterStream checkTwitterStream = operators.checkTwitterStream(summaryTwitterStream, confNikkei.out);
+//		checkTwitterStream = operators.checkTwitterStream(summaryTwitterStream, setMissingValueToNikkei.out);
 		SetMissingValueToTwitter setMissingValueToTwitter = operators.setMissingValueToTwitter(checkTwitterStream.missed);
+		//	停止データ
+        CoreOperators.stop(setMissingValueToTwitter.original);
 		
+		Confluent<SummaryData> confTwitter = core.confluent(checkTwitterStream.joined, setMissingValueToTwitter.out);
 		
 		// 4. 出力
-		summaryData.add(checkTwitterStream.joined);
-		summaryData.add(setMissingValueToTwitter.out);
+		summaryData.add(confTwitter.out);
+//		summaryData.add(setMissingValueToTwitter.out);
 		
 	}
 }

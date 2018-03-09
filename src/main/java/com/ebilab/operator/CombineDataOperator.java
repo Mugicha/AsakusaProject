@@ -1,6 +1,14 @@
 package com.ebilab.operator;
 
+import java.text.SimpleDateFormat;
+import java.util.List;
+
+import com.asakusafw.runtime.core.Result;
+import com.asakusafw.runtime.value.Date;
+import com.asakusafw.runtime.value.DateUtil;
+import com.asakusafw.vocabulary.model.Key;
 import com.asakusafw.vocabulary.operator.Convert;
+import com.asakusafw.vocabulary.operator.GroupSort;
 import com.asakusafw.vocabulary.operator.MasterJoin;
 import com.ebilab.modelgen.dmdl.model.AddRateDj;
 import com.ebilab.modelgen.dmdl.model.AddRateDjNikkei;
@@ -9,8 +17,10 @@ import com.ebilab.modelgen.dmdl.model.DailyNikkei300;
 import com.ebilab.modelgen.dmdl.model.DailyRateUsdJpy;
 import com.ebilab.modelgen.dmdl.model.SummaryData;
 import com.ebilab.modelgen.dmdl.model.SummaryTwitterStream;
+import com.ebilab.modelgen.tfidf.model.DayWordCountModel;
 
 public abstract class CombineDataOperator {
+    private final SummaryTwitterStream ddwm = new SummaryTwitterStream();
 	/*
 	@MasterCheck
 	public abstract boolean checkDowJones(
@@ -158,4 +168,75 @@ public abstract class CombineDataOperator {
 		
 		return summaryData;
 	}
+	/**
+	 * Twitter縦横変換。
+	 * @param in
+	 * @param out
+	 */
+    @GroupSort
+    public void reformatTop50(
+    		@Key(group = "date", order = { "tf_idf DESC", "word ASC" }) List<DayWordCountModel> in,
+            Result<SummaryTwitterStream> out) {
+        int limit = 50;
+        //	単語数が５０に満たない場合は小さい方に合わせる。
+        if(limit < in.size())limit = in.size();
+        ddwm.setDate(Date.valueOf(in.get(0).getDateOption(), Date.Format.SIMPLE));
+        for(int i=0;i<limit;i++){
+        	switch (i) {
+			case 1:ddwm.setHotWord1(in.get(i).getWord());break;
+			case 2:ddwm.setHotWord2(in.get(i).getWord());break;
+			case 3:ddwm.setHotWord3(in.get(i).getWord());break;
+			case 4:ddwm.setHotWord4(in.get(i).getWord());break;
+			case 5:ddwm.setHotWord5(in.get(i).getWord());break;
+			case 6:ddwm.setHotWord6(in.get(i).getWord());break;
+			case 7:ddwm.setHotWord7(in.get(i).getWord());break;
+			case 8:ddwm.setHotWord8(in.get(i).getWord());break;
+			case 9:ddwm.setHotWord9(in.get(i).getWord());break;
+			case 10:ddwm.setHotWord10(in.get(i).getWord());break;
+			case 11:ddwm.setHotWord11(in.get(i).getWord());break;
+			case 12:ddwm.setHotWord12(in.get(i).getWord());break;
+			case 13:ddwm.setHotWord13(in.get(i).getWord());break;
+			case 14:ddwm.setHotWord14(in.get(i).getWord());break;
+			case 15:ddwm.setHotWord15(in.get(i).getWord());break;
+			case 16:ddwm.setHotWord16(in.get(i).getWord());break;
+			case 17:ddwm.setHotWord17(in.get(i).getWord());break;
+			case 18:ddwm.setHotWord18(in.get(i).getWord());break;
+			case 19:ddwm.setHotWord19(in.get(i).getWord());break;
+			case 20:ddwm.setHotWord20(in.get(i).getWord());break;
+			case 21:ddwm.setHotWord21(in.get(i).getWord());break;
+			case 22:ddwm.setHotWord22(in.get(i).getWord());break;
+			case 23:ddwm.setHotWord23(in.get(i).getWord());break;
+			case 24:ddwm.setHotWord24(in.get(i).getWord());break;
+			case 25:ddwm.setHotWord25(in.get(i).getWord());break;
+			case 26:ddwm.setHotWord26(in.get(i).getWord());break;
+			case 27:ddwm.setHotWord27(in.get(i).getWord());break;
+			case 28:ddwm.setHotWord28(in.get(i).getWord());break;
+			case 29:ddwm.setHotWord29(in.get(i).getWord());break;
+			case 30:ddwm.setHotWord30(in.get(i).getWord());break;
+			case 31:ddwm.setHotWord31(in.get(i).getWord());break;
+			case 32:ddwm.setHotWord32(in.get(i).getWord());break;
+			case 33:ddwm.setHotWord33(in.get(i).getWord());break;
+			case 34:ddwm.setHotWord34(in.get(i).getWord());break;
+			case 35:ddwm.setHotWord35(in.get(i).getWord());break;
+			case 36:ddwm.setHotWord36(in.get(i).getWord());break;
+			case 37:ddwm.setHotWord37(in.get(i).getWord());break;
+			case 38:ddwm.setHotWord38(in.get(i).getWord());break;
+			case 39:ddwm.setHotWord39(in.get(i).getWord());break;
+			case 40:ddwm.setHotWord40(in.get(i).getWord());break;
+			case 41:ddwm.setHotWord41(in.get(i).getWord());break;
+			case 42:ddwm.setHotWord42(in.get(i).getWord());break;
+			case 43:ddwm.setHotWord43(in.get(i).getWord());break;
+			case 44:ddwm.setHotWord44(in.get(i).getWord());break;
+			case 45:ddwm.setHotWord45(in.get(i).getWord());break;
+			case 46:ddwm.setHotWord46(in.get(i).getWord());break;
+			case 47:ddwm.setHotWord47(in.get(i).getWord());break;
+			case 48:ddwm.setHotWord48(in.get(i).getWord());break;
+			case 49:ddwm.setHotWord49(in.get(i).getWord());break;
+			case 50:ddwm.setHotWord50(in.get(i).getWord());break;
+			default:
+				break;
+			}
+        }
+        out.add(ddwm);
+    }
 }
