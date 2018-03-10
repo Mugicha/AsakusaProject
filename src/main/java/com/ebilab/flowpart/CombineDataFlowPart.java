@@ -59,7 +59,6 @@ public class CombineDataFlowPart extends FlowDescription{
 		
 		// 2. Nikkei300 の結合
 		CheckNikkei300 checkNikkei300 = operators.checkNikkei300(dailyNikkei300, confDowJones.out);
-//		checkNikkei300 = operators.checkNikkei300(dailyNikkei300, setMissingValueToDowJones.out);
 		SetMissingValueToNikkei setMissingValueToNikkei = operators.setMissingValueToNikkei(checkNikkei300.missed);
 		//	停止データ
         CoreOperators.stop(setMissingValueToNikkei.original);
@@ -68,7 +67,6 @@ public class CombineDataFlowPart extends FlowDescription{
 		
 		// 3. Twitter の結合
 		CheckTwitterStream checkTwitterStream = operators.checkTwitterStream(summaryTwitterStream, confNikkei.out);
-//		checkTwitterStream = operators.checkTwitterStream(summaryTwitterStream, setMissingValueToNikkei.out);
 		SetMissingValueToTwitter setMissingValueToTwitter = operators.setMissingValueToTwitter(checkTwitterStream.missed);
 		//	停止データ
         CoreOperators.stop(setMissingValueToTwitter.original);
@@ -77,7 +75,6 @@ public class CombineDataFlowPart extends FlowDescription{
 		
 		// 4. 出力
 		summaryData.add(confTwitter.out);
-//		summaryData.add(setMissingValueToTwitter.out);
 		
 	}
 }

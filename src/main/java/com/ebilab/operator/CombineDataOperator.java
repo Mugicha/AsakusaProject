@@ -1,11 +1,9 @@
 package com.ebilab.operator;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import com.asakusafw.runtime.core.Result;
 import com.asakusafw.runtime.value.Date;
-import com.asakusafw.runtime.value.DateUtil;
 import com.asakusafw.vocabulary.model.Key;
 import com.asakusafw.vocabulary.operator.Convert;
 import com.asakusafw.vocabulary.operator.GroupSort;
@@ -91,16 +89,17 @@ public abstract class CombineDataOperator {
 	*/
 	@MasterJoin
 	public abstract SummaryData checkTwitterStream(SummaryTwitterStream twitterStream, AddRateDjNikkei rateDJNikkei);
-	
-	
+
 	private final SummaryData summaryData = new SummaryData();
+
 	@Convert
 	public SummaryData setMissingValueToTwitter(AddRateDjNikkei addRateDjNikkei) {
+//		summaryData.reset();
 		summaryData.setDate(addRateDjNikkei.getDate());
 		summaryData.setFEndRate(addRateDjNikkei.getFEndRate());
 		summaryData.setFStartRate(addRateDjNikkei.getFStartRate());
-		summaryData.setFMaxRate(addRateDjNikkei.getDMaxRate());
-		summaryData.setFMinRate(addRateDjNikkei.getDMinRate());
+		summaryData.setFMaxRate(addRateDjNikkei.getFMaxRate());
+		summaryData.setFMinRate(addRateDjNikkei.getFMinRate());
 		summaryData.setFDayBeforeRatio(addRateDjNikkei.getFDayBeforeRatio());
 		summaryData.setDEndRate(addRateDjNikkei.getDEndRate());
 		summaryData.setDStartRate(addRateDjNikkei.getDStartRate());
@@ -179,7 +178,8 @@ public abstract class CombineDataOperator {
             Result<SummaryTwitterStream> out) {
         int limit = 50;
         //	単語数が５０に満たない場合は小さい方に合わせる。
-        if(limit < in.size())limit = in.size();
+        if(limit > in.size())limit = in.size();
+        ddwm.reset();
         ddwm.setDate(Date.valueOf(in.get(0).getDateOption(), Date.Format.SIMPLE));
         for(int i=0;i<limit;i++){
         	switch (i) {

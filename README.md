@@ -32,7 +32,7 @@ cd ~/AsakusaProject/
 ./gradlew assemble
 # デプロイ
 cd ${ASAKUSA_HOME}
-tar -xzf ~/AsakusaProject/build/asakusafw-AsakusaProject.tar.gz
+tar -xzf ~/mhir/wks/AsakusaProject/build/asakusafw-AsakusaProject.tar.gz
 java -jar ${ASAKUSA_HOME}/tools/bin/setup.jar
 
 ```
