@@ -1,0 +1,45 @@
+"日別単語別出現数カウント"
+@namespace(value = tfidf )
+@directio.csv
+day_word_count_model = {
+	"日付"
+	date:TEXT;
+	"単語"
+	word:TEXT;
+	"出現回数"
+	count:INT;
+	"TermFrequency"
+	tf:DOUBLE;
+	"InverseDocumentFrequency"
+	idf:DOUBLE;
+	"tf_idf"
+	tf_idf:DOUBLE;
+};
+"日別カウント"
+@namespace(value = tfidf )
+summarized day_count_model = day_word_count_model => {
+	any date -> date;
+	count date -> num_of_word;
+	sum count -> total_count;
+} % date;
+
+"日数カウント"
+@namespace(value = tfidf )
+summarized day_num_model = day_count_model => {
+	count date -> num_of_day;
+};
+
+
+"単語別カウント"
+@namespace(value = tfidf )
+summarized word_count_model = day_word_count_model => {
+	any word -> word;
+	count date -> num_of_day;
+	sum count -> total_count;
+} % word;
+
+"日数付き単語別カウント"
+@namespace(value = tfidf )
+word_count_day_total_model = word_count_model + {
+	total_num_of_day : LONG;
+};

@@ -1,7 +1,7 @@
 @directio.csv(
 	charset = "UTF-8",
 	has_header = TRUE,
-	date = "yyyy-mm-dd"
+	date = "yyyy/MM/dd"
 )
 daily_rate_usd_jpy ={
 	@directio.csv.field(name="Date")
@@ -23,7 +23,7 @@ daily_rate_usd_jpy ={
 @directio.csv(
 	charset = "UTF-8",
 	has_header = TRUE,
-	date = "yyyy-mm-dd"
+	date = "yyyy/MM/dd"
 )
 daily_dow_jones = {
 	@directio.csv.field(name="Date")
@@ -45,10 +45,10 @@ daily_dow_jones = {
 @directio.csv(
 	charset = "UTF-8",
 	has_header = TRUE,
-	date = "yyyy-mm-dd"
+	date = "yyyy/MM/dd"
 )
 daily_nikkei_300 = {
-	@directio.csv.field(name="")
+	@directio.csv.field(name="Date")
 	date : DATE;
 	@directio.csv.field(name="EndRate")
 	end_rate : FLOAT;
@@ -162,6 +162,11 @@ joined add_rate_dj_nikkei
 	day_before_ratio -> n_day_before_ratio;
 } % date;
 
+@directio.csv(
+	charset = "UTF-8",
+	has_header = TRUE,
+	date = "yyyy-MM-dd"
+)
 joined summary_data
  = add_rate_dj_nikkei -> {
 	date -> date;

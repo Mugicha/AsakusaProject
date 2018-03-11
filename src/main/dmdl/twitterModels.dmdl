@@ -1,0 +1,19 @@
+"Twitter入力"
+@namespace(value = twitter )
+@directio.line(
+	charset = "UTF-8"
+)
+twitter_rec={
+	"レコード"
+	content:TEXT;
+};
+
+"出力用日別単語列"
+@namespace(value = twitter )
+@directio.csv
+disp_day_word_model = {
+	"日付"
+	date:TEXT;
+	"特徴単語"
+	words:TEXT;
+};
